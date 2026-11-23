@@ -1,5 +1,5 @@
 import NoteCard from "./NoteCard.jsx";
-import {useState, useEffect} from "react";
+import {useState, useEffect, useRef} from "react";
 const startingNotes = [
     { 
             id: 1,
@@ -48,6 +48,7 @@ function Notes() {
         }
         setNotes([...notes, newNote]);
         setForm({ title: "", body: "" });
+        titleRef.current.focus()
     }
 
     function handleDelete(id){
@@ -60,7 +61,7 @@ function Notes() {
         note.title.toLowerCase().includes(search.toLowerCase())
     );
 
-    
+    const titleRef =useRef(null)
 
     useEffect(() => {
       localStorage.setItem('notes', JSON.stringify(notes));
@@ -72,6 +73,9 @@ function Notes() {
       }, 1000)
       return () => clearTimeout(id)
     }, [form])
+
+    
+
   return (
     <div className="grid min-h-screen grid-cols-[420px_1fr]">
       <aside className="sticky top-0 flex h-screen flex-col gap-5 bg-white px-8 py-9 shadow-[0_2px_4px_0_rgba(0,0,0,0.2),0_25px_50px_0_rgba(0,0,0,0.1)]">
@@ -96,6 +100,7 @@ function Notes() {
             NEW NOTE
           </p>
           <input
+            ref={titleRef}
             name="title"
             value = {form.title}
             onChange={handleChange}
