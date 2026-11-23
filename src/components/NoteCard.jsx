@@ -1,11 +1,27 @@
-import {useState} from "react";
-function NoteCard({title, body}) {
+import { useState, useContext } from "react";
+import { SettingsContext } from "../SettingsContext";
+function NoteCard({ title, body }) {
   const [isExpanded, setIsExpanded] = useState(false);
-    return (
-        <div>
-      <h3 className="pr-8 text-[22px] font-normal break-words">{title}</h3>
+  const { largeText } = useContext(SettingsContext);
+  return (
+    <div>
+      <h3
+        className={
+          largeText
+            ? "pr-8 text-[28px] font-normal break-words"
+            : "pr-8 text-[22px] font-normal break-words"
+        }
+      >
+        {title}
+      </h3>
       {isExpanded && (
-        <p className="mt-3 text-[17px] break-words whitespace-pre-wrap text-[#4d4d4d]">
+        <p
+          className={
+            largeText
+              ? "mt-3 text-[21px] break-words whitespace-pre-wrap text-[#4d4d4d]"
+              : "mt-3 text-[17px] break-words whitespace-pre-wrap text-[#4d4d4d]"
+          }
+        >
           {body}
         </p>
       )}
@@ -17,7 +33,7 @@ function NoteCard({title, body}) {
         {isExpanded ? "Show less" : "Show more"}
       </button>
     </div>
-    )
+  );
 }
 
 export default NoteCard;
