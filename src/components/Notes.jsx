@@ -1,5 +1,5 @@
 import NoteCard from "./NoteCard.jsx";
-import {useState, useEffect, useRef} from "react";
+import {useState, useEffect, useRef, useMemo} from "react";
 const startingNotes = [
     { 
             id: 1,
@@ -57,9 +57,11 @@ function Notes() {
 
     const [search, setSearch] = useState("");
 
-    const filteredNotes = notes.filter((note) =>
+    const filteredNotes = useMemo(() => {
+      return notes.filter((note) =>
         note.title.toLowerCase().includes(search.toLowerCase())
-    );
+      )
+    }, [notes, search])
 
     const titleRef =useRef(null)
 
@@ -126,6 +128,7 @@ function Notes() {
         <h2 className="mb-6 text-3xl">All notes</h2>
 
         <ul className="grid grid-cols-3 items-start gap-5">
+          
           {filteredNotes.map((note) => (
             <li
               key={note.id}
